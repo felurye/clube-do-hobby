@@ -1,0 +1,163 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MODERATOR
+  MEMBER
+}
+
+enum ReportTargetType {
+  INDICACAO
+  COMMENT
+}
+
+enum ReportStatus {
+  PENDING
+  RESOLVED
+  DISMISSED
+}
+
+enum HighlightKind {
+  POST
+  EVENT
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(MEMBER)
+  createdAt    DateTime @default(now())
+
+  indicacoes       Indicacao[]
+  reviews          Review[]
+  comments         Comment[]
+  reportsFiled     Report[]      @relation("ReportsFiled")
+  reportsResolved  Report[]      @relation("ReportsResolved")
+  categoriesCreated Category[]
+  highlightsCreated InstagramHighlight[]
+
+  @@map("users")
+}
+
+model InstagramHighlight {
+  id        String        @id @default(cuid())
+  url       String
+  kind      HighlightKind
+  caption   String?
+  position  Int           @default(0)
+  createdAt DateTime      @default(now())
+
+  createdById String
+  createdBy   User   @relation(fields: [createdById], references: [id])
+
+  @@index([kind, position])
+  @@map("instagram_highlights")
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+
+  createdById String?
+  createdBy   User?   @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+  indicacoes Indicacao[]
+
+  @@map("categories")
+}
+
+model Indicacao {
+  id           String   @id @default(cuid())
+  title        String
+  description  String
+  address      String?
+  neighborhood String?
+  city         String?
+  phone        String?
+  instagram    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  reviews  Review[]
+  comments Comment[]
+  reports  Report[]
+
+  @@index([categoryId])
+  @@index([city, neighborhood])
+  @@map("indicacoes")
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  stars     Int
+  recommend Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  indicacaoId String
+  indicacao   Indicacao @relation(fields: [indicacaoId], references: [id], onDelete: Cascade)
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  @@unique([indicacaoId, authorId])
+  @@map("reviews")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  body      String
+  createdAt DateTime @default(now())
+
+  indicacaoId String
+  indicacao   Indicacao @relation(fields: [indicacaoId], references: [id], onDelete: Cascade)
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  reports Report[]
+
+  @@index([indicacaoId])
+  @@map("comments")
+}
+
+model Report {
+  id         String            @id @default(cuid())
+  targetType ReportTargetType
+  reason     String
+  status     ReportStatus      @default(PENDING)
+  createdAt  DateTime          @default(now())
+  resolvedAt DateTime?
+
+  indicacaoId String?
+  indicacao   Indicacao? @relation(fields: [indicacaoId], references: [id], onDelete: Cascade)
+
+  commentId String?
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  reporterId String
+  reporter   User   @relation("ReportsFiled", fields: [reporterId], references: [id])
+
+  resolvedById String?
+  resolvedBy   User?   @relation("ReportsResolved", fields: [resolvedById], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@map("reports")
+}
