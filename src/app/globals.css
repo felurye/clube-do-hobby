@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+/*
+ * dark:* vale quando a pessoa escolheu o escuro (data-theme="dark") ou,
+ * sem escolha salva, quando o sistema está no escuro.
+ */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
+/*
+ * Design system do Clube do Hobby - ver DESIGN.md na raiz do projeto.
+ *
+ * As cores vêm do logo: papel creme, tinta preta e a flor rosa-pétala.
+ * A escala `zinc` do Tailwind é remapeada para uma rampa quente (creme -> tinta),
+ * então toda classe zinc-* existente já herda a cara da marca.
+ */
+
+@theme {
+  /* Rampa neutra quente (substitui o zinc padrão) */
+  --color-zinc-50: #f7f2e6;
+  --color-zinc-100: #efe7d4;
+  --color-zinc-200: #e0d5bb;
+  --color-zinc-300: #cdbf9f;
+  --color-zinc-400: #a6987b;
+  --color-zinc-500: #7e725d;
+  --color-zinc-600: #5d5444;
+  --color-zinc-700: #453e33;
+  --color-zinc-800: #2d2822;
+  --color-zinc-900: #1b1814;
+  --color-zinc-950: #110f0c;
+
+  /* "Branco" da marca: creme bem claro, nunca branco puro */
+  --color-white: #fbf8f1;
+  --color-black: #0b0a08;
+
+  /* Cores de marca */
+  --color-paper: #eae2cd;
+  --color-ink: #0b0a08;
+  --color-petal-50: #fcf0ef;
+  --color-petal-100: #f8dedd;
+  --color-petal-200: #f1c0bf;
+  --color-petal-300: #e9a3a2;
+  --color-petal-400: #e28a89;
+  --color-petal-500: #d46e6d;
+  --color-petal-600: #b9524f;
+  --color-petal-700: #96403e;
+  --color-petal-800: #713230;
+  --color-petal-900: #4d2321;
+
+  /* Tipografia */
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), "Cooper Black", Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Raios mais macios, como as formas da flor */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  /* Sombra "carimbo": deslocada e sólida, lembra impressão */
+  --shadow-stamp: 4px 4px 0 0 rgb(11 10 8);
+  --shadow-sm: 0 1px 2px 0 rgb(27 24 20 / 0.06), 0 1px 3px 0 rgb(27 24 20 / 0.08);
+}
+
+/* Tokens semânticos (mudam com o tema) */
+:root {
+  --background: var(--color-paper);
+  --surface: var(--color-white);
+  --foreground: var(--color-ink);
+  --muted: var(--color-zinc-600);
+  --line: var(--color-zinc-300);
+  --accent: var(--color-petal-400);
+  --accent-ink: var(--color-petal-700);
+  color-scheme: light;
+}
+
+/*
+ * Tema escuro: <html data-theme="dark"> (escolha salva em cookie e aplicada
+ * pelo layout no servidor) ou, sem escolha, a preferência do sistema.
+ */
+:root[data-theme="dark"] {
+  --background: var(--color-zinc-950);
+  --surface: var(--color-zinc-900);
+  --foreground: var(--color-paper);
+  --muted: var(--color-zinc-400);
+  --line: var(--color-zinc-700);
+  --accent: var(--color-petal-400);
+  --accent-ink: var(--color-petal-300);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: var(--color-zinc-950);
+    --surface: var(--color-zinc-900);
+    --foreground: var(--color-paper);
+    --muted: var(--color-zinc-400);
+    --line: var(--color-zinc-700);
+    --accent: var(--color-petal-400);
+    --accent-ink: var(--color-petal-300);
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+}
+
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-variation-settings: "SOFT" 100, "WONK" 1;
+    letter-spacing: -0.01em;
+  }
+
+  h1 {
+    font-weight: 800;
+  }
+
+  h2,
+  h3 {
+    font-weight: 700;
+  }
+
+  input,
+  select,
+  textarea {
+    background-color: var(--surface);
+  }
+
+  a {
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1.5px;
+  }
+
+  ::selection {
+    background: var(--color-petal-200);
+    color: var(--color-ink);
+  }
+}
+
+[data-theme-switching] *,
+[data-theme-switching] *::before,
+[data-theme-switching] *::after {
+  transition: none !important;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-petal-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
