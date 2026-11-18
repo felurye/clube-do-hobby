@@ -15,15 +15,12 @@ export default function ReviewForm({
   const [recommend, setRecommend] = useState(existingReview?.recommend ?? true);
 
   return (
-    <form
-      action={formAction}
-      className="flex flex-col gap-3 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800"
-    >
+    <form action={formAction} className="flex flex-col gap-3">
       <input type="hidden" name="indicacaoId" value={indicacaoId} />
       <input type="hidden" name="stars" value={stars} readOnly />
       <input type="hidden" name="recommend" value={recommend ? "true" : "false"} readOnly />
 
-      <p className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
+      <p className="font-display text-lg font-extrabold text-foreground">
         {existingReview ? "Sua avaliação" : "Avaliar"}
       </p>
 
@@ -45,10 +42,10 @@ export default function ReviewForm({
         <button
           type="button"
           onClick={() => setRecommend(true)}
-          className={`rounded-md border px-4 py-2.5 text-sm font-medium ${
+          className={`rounded-full border-2 px-4 py-2.5 text-sm font-bold ${
             recommend
               ? "border-green-600 bg-green-50 text-green-700 dark:border-green-500 dark:bg-green-950 dark:text-green-400"
-              : "border-zinc-300 text-zinc-600 dark:border-zinc-700 dark:text-zinc-400"
+              : "border-line text-zinc-600 dark:text-zinc-400"
           }`}
         >
           Recomendo
@@ -56,10 +53,10 @@ export default function ReviewForm({
         <button
           type="button"
           onClick={() => setRecommend(false)}
-          className={`rounded-md border px-4 py-2.5 text-sm font-medium ${
+          className={`rounded-full border-2 px-4 py-2.5 text-sm font-bold ${
             !recommend
               ? "border-red-600 bg-red-50 text-red-700 dark:border-red-500 dark:bg-red-950 dark:text-red-400"
-              : "border-zinc-300 text-zinc-600 dark:border-zinc-700 dark:text-zinc-400"
+              : "border-line text-zinc-600 dark:text-zinc-400"
           }`}
         >
           Não recomendo
@@ -71,7 +68,7 @@ export default function ReviewForm({
       <button
         type="submit"
         disabled={pending}
-        className="self-start rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white disabled:opacity-60 dark:bg-zinc-50 dark:text-zinc-900"
+        className="self-start rounded-full bg-roma-400 px-5 py-2.5 text-sm font-bold text-ink transition-transform hover:-translate-y-0.5 disabled:opacity-60"
       >
         {pending ? "Salvando..." : existingReview ? "Atualizar avaliação" : "Enviar avaliação"}
       </button>

@@ -11,7 +11,7 @@ export default function RegisterForm() {
     <div className="flex flex-1 items-center justify-center px-6 py-16">
       <form
         action={formAction}
-        className="flex w-full max-w-sm flex-col gap-4 rounded-xl border-2 border-ink bg-white p-8 shadow-stamp shadow-petal-400 dark:border-zinc-800 dark:bg-zinc-950"
+        className="flex w-full max-w-sm flex-col gap-4 rounded-xl border-2 border-ink bg-white p-8 shadow-stamp shadow-roma-400 dark:border-zinc-800 dark:bg-zinc-950"
       >
         <h1 className="text-3xl text-zinc-900 dark:text-zinc-50">
           Criar conta

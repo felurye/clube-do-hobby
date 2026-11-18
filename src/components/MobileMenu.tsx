@@ -6,7 +6,7 @@ import NavLink, { type NavItem } from "@/components/NavLink";
 
 const itemClass =
   "flex min-h-12 items-center rounded-xl px-4 text-base font-medium text-zinc-800 transition-colors hover:bg-zinc-900/5 dark:text-zinc-200 dark:hover:bg-white/10";
-const activeClass = "bg-petal-100 text-ink dark:bg-petal-900 dark:text-paper";
+const activeClass = "bg-oliveira text-paper";
 
 type MobileMenuProps = {
   links: NavItem[];

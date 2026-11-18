@@ -26,13 +26,13 @@ export default function CommentForm({ indicacaoId }: { indicacaoId: string }) {
         placeholder="Escreva um comentário..."
         value={body}
         onChange={(e) => setBody(e.target.value)}
-        className="rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
+        className="rounded-2xl border-2 border-line bg-background px-3.5 py-2.5 text-sm text-foreground outline-none focus:border-zinc-400"
       />
       {state?.error && <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>}
       <button
         type="submit"
         disabled={pending}
-        className="self-start rounded-md border border-zinc-300 px-4 py-2.5 text-sm font-medium text-zinc-700 disabled:opacity-60 dark:border-zinc-700 dark:text-zinc-300"
+        className="self-start rounded-full border-2 border-line px-4 py-2.5 text-sm font-bold text-foreground transition-colors hover:border-zinc-400 disabled:opacity-60"
       >
         {pending ? "Enviando..." : "Comentar"}
       </button>

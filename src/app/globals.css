@@ -18,7 +18,9 @@
 /*
  * Design system do Clube do Hobby - ver DESIGN.md na raiz do projeto.
  *
- * As cores vêm do logo: papel creme, tinta preta e a flor rosa-pétala.
+ * As cores vêm da identidade visual oficial da marca: papel creme (Algodão),
+ * tinta preta e a flor laranja (Romã), com Oliveira, Abacate, Cacau, Bombom
+ * e Suspiro como paleta ilustrativa de apoio.
  * A escala `zinc` do Tailwind é remapeada para uma rampa quente (creme -> tinta),
  * então toda classe zinc-* existente já herda a cara da marca.
  */
@@ -41,19 +43,29 @@
   --color-white: #fbf8f1;
   --color-black: #0b0a08;
 
-  /* Cores de marca */
-  --color-paper: #eae2cd;
+  /* Cores de marca (identidade visual oficial) */
+  --color-paper: #eae3cd;
   --color-ink: #0b0a08;
-  --color-petal-50: #fcf0ef;
-  --color-petal-100: #f8dedd;
-  --color-petal-200: #f1c0bf;
-  --color-petal-300: #e9a3a2;
-  --color-petal-400: #e28a89;
-  --color-petal-500: #d46e6d;
-  --color-petal-600: #b9524f;
-  --color-petal-700: #96403e;
-  --color-petal-800: #713230;
-  --color-petal-900: #4d2321;
+
+  /* Paleta ilustrativa: nomes e hex oficiais da identidade visual */
+  --color-algodao: #eae3cd;
+  --color-oliveira: #656038;
+  --color-abacate: #c1bc6b;
+  --color-cacau: #a77864;
+  --color-bombom: #e5a69e;
+  --color-suspiro: #f5d3d2;
+
+  /* Escala de acento, ancorada na cor da flor do logo (Romã) */
+  --color-roma-50: #fef0ec;
+  --color-roma-100: #faded6;
+  --color-roma-200: #f4bfaf;
+  --color-roma-300: #ec9479;
+  --color-roma-400: #e56b46;
+  --color-roma-500: #d95026;
+  --color-roma-600: #b64320;
+  --color-roma-700: #8f391e;
+  --color-roma-800: #6a2d1b;
+  --color-roma-900: #472015;
 
   /* Tipografia */
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
@@ -78,8 +90,8 @@
   --foreground: var(--color-ink);
   --muted: var(--color-zinc-600);
   --line: var(--color-zinc-300);
-  --accent: var(--color-petal-400);
-  --accent-ink: var(--color-petal-700);
+  --accent: var(--color-roma-400);
+  --accent-ink: var(--color-roma-700);
   color-scheme: light;
 }
 
@@ -93,8 +105,8 @@
   --foreground: var(--color-paper);
   --muted: var(--color-zinc-400);
   --line: var(--color-zinc-700);
-  --accent: var(--color-petal-400);
-  --accent-ink: var(--color-petal-300);
+  --accent: var(--color-roma-400);
+  --accent-ink: var(--color-roma-300);
   color-scheme: dark;
 }
 
@@ -105,8 +117,8 @@
     --foreground: var(--color-paper);
     --muted: var(--color-zinc-400);
     --line: var(--color-zinc-700);
-    --accent: var(--color-petal-400);
-    --accent-ink: var(--color-petal-300);
+    --accent: var(--color-roma-400);
+    --accent-ink: var(--color-roma-300);
     color-scheme: dark;
   }
 }
@@ -157,7 +169,7 @@
   }
 
   ::selection {
-    background: var(--color-petal-200);
+    background: var(--color-roma-200);
     color: var(--color-ink);
   }
 }
@@ -169,7 +181,7 @@
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-petal-500);
+  outline: 2px solid var(--color-roma-500);
   outline-offset: 2px;
   border-radius: 4px;
 }

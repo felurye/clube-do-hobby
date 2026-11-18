@@ -13,7 +13,7 @@ const roleLabel: Record<string, string> = {
 
 const navLink =
   "rounded-full px-3 py-2 font-medium text-zinc-700 transition-colors hover:bg-zinc-900/5 hover:text-ink dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-paper";
-const navLinkActive = "bg-zinc-900/5 text-ink dark:bg-white/10 dark:text-paper";
+const navLinkActive = "bg-oliveira text-paper hover:bg-oliveira hover:text-paper";
 
 const primaryButton =
   "rounded-full bg-ink font-medium text-paper transition-colors hover:bg-zinc-800 dark:bg-paper dark:text-ink dark:hover:bg-zinc-200";
@@ -36,9 +36,21 @@ export default async function Header() {
     if (user.role === "ADMIN") links.push({ href: "/admin/destaques", label: "Admin" });
   }
 
-  const roleBadge = user && (
-    <span className="rounded-full bg-petal-100 px-2 py-0.5 text-xs font-medium text-petal-800 dark:bg-petal-900 dark:text-petal-100">
-      {roleLabel[user.role] ?? user.role}
+  const userAvatar = user && (
+    <span
+      aria-hidden="true"
+      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-bombom font-display text-base font-extrabold text-ink"
+    >
+      {(user.name ?? "?").charAt(0).toUpperCase()}
+    </span>
+  );
+
+  const userIdentity = user && (
+    <span className="flex min-w-0 flex-col leading-tight">
+      <span className="truncate text-sm font-bold text-foreground">{user.name}</span>
+      <span className="text-xs text-zinc-600 dark:text-zinc-400">
+        {roleLabel[user.role] ?? user.role}
+      </span>
     </span>
   );
 
@@ -58,9 +70,9 @@ export default async function Header() {
   // Conteúdo do rodapé do menu móvel
   const mobileFooter = user ? (
     <div className="flex items-center justify-between gap-3 px-4">
-      <span className="flex min-w-0 items-center gap-2 text-zinc-700 dark:text-zinc-300">
-        <span className="truncate">{user.name}</span>
-        {roleBadge}
+      <span className="flex min-w-0 items-center gap-2.5">
+        {userAvatar}
+        {userIdentity}
       </span>
       {signOutForm(`${outlineButton} px-5 py-2.5 text-sm`)}
     </div>
@@ -92,9 +104,9 @@ export default async function Header() {
         ))}
         {user ? (
           <>
-            <span className="flex items-center gap-2 px-3 text-zinc-700 dark:text-zinc-300">
-              {user.name}
-              {roleBadge}
+            <span className="flex items-center gap-2.5 px-2">
+              {userAvatar}
+              {userIdentity}
             </span>
             {signOutForm(navLink)}
           </>

@@ -37,7 +37,7 @@ export default function Logo({ variant = "inline", className = "" }: LogoProps) 
 
   const doMark = (size: string, text: string) => (
     <span className={`relative inline-flex items-center justify-center ${size}`}>
-      <Flower className="absolute inset-0 h-full w-full text-petal-400" />
+      <Flower className="absolute inset-0 h-full w-full text-roma-400" />
       <span className={`relative font-bold leading-none text-paper ${text}`}>do</span>
     </span>
   );

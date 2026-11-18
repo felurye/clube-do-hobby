@@ -15,7 +15,7 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#eae2cd",
+          background: "#eae3cd",
           borderRadius: 8,
         }}
       >
@@ -27,11 +27,11 @@ export default function Icon() {
               cy="28"
               rx="19"
               ry="23"
-              fill="#e28a89"
+              fill="#e56b46"
               transform={`rotate(${angle} 50 50)`}
             />
           ))}
-          <circle cx="50" cy="50" r="26" fill="#e28a89" />
+          <circle cx="50" cy="50" r="26" fill="#e56b46" />
           <circle cx="50" cy="50" r="9" fill="#0b0a08" />
         </svg>
       </div>
