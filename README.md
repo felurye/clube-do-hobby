@@ -14,11 +14,10 @@ Veja o [PROJETO.md](PROJETO.md) para a visão completa do produto, as decisões 
 
 ## Rodando localmente
 
-Pré-requisitos: Node.js 20+ e Docker Desktop (para o banco Postgres local).
+Pré-requisitos: Node.js 20+. O banco de dados é o Prisma Postgres provisionado via Storage da Vercel (não precisa de Docker); se preferir um banco local, o `docker-compose.yml` sobe um Postgres compatível - veja o comentário em `.env.example`.
 
 ```bash
 cp .env.example .env
-docker compose up -d
 npm install
 npm run db:migrate
 npm run db:seed
@@ -29,11 +28,13 @@ Acesse http://localhost:3000. A seed cria 10 categorias iniciais e um usuário a
 
 ### Variáveis de ambiente (`.env`)
 
-| Variável       | Para que serve                                                                                                                                                                                                        |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `DATABASE_URL` | Conexão com o Postgres (o `docker-compose.yml` já sobe um banco local compatível com o valor de exemplo)                                                                                                              |
-| `AUTH_SECRET`  | Chave usada pelo Auth.js para assinar a sessão. Gere uma própria antes de rodar em qualquer lugar que não seja só o seu computador, com `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"` |
-| `NEXTAUTH_URL` | Endereço onde o site está rodando (`http://localhost:3000` em desenvolvimento)                                                                                                                                        |
+| Variável                           | Para que serve                                                                                                                                                                                                        |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `CH_STORAGE_DATABASE_URL`          | Conexão direta (sem pool) com o Postgres, usada pelo Prisma para migrations                                                                                                                                           |
+| `CH_STORAGE_DATABASE_URL_POOLED`   | Conexão com pool, usada pela aplicação em tempo de execução                                                                                                                                                           |
+| `BLOB_READ_WRITE_TOKEN`            | Token do bucket (Vercel Blob) usado para upload de imagens                                                                                                                                                            |
+| `AUTH_SECRET`                      | Chave usada pelo Auth.js para assinar a sessão. Gere uma própria antes de rodar em qualquer lugar que não seja só o seu computador, com `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"` |
+| `NEXTAUTH_URL`                     | Endereço onde o site está rodando (`http://localhost:3000` em desenvolvimento)                                                                                                                                        |
 
 ### Outros comandos úteis
 
@@ -69,7 +70,7 @@ prisma/
 
 ## Deploy
 
-Ainda não está no ar - roda só localmente por enquanto. Quando quiser publicar, a combinação já decidida é **Vercel** (hospedagem, deploy automático a cada push) + **Neon** (Postgres na nuvem), ambos gratuitos no plano que o clube precisa. É só retomar a conversa com o co-fundador técnico pedindo para seguir com o deploy.
+A combinação usada é **Vercel** (hospedagem, deploy automático a cada push) + **Prisma Postgres** (banco, via Storage da Vercel) + **Vercel Blob** (bucket para upload de imagens).
 
 ## Manutenção
 
