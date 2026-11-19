@@ -17,7 +17,10 @@ export default async function Home() {
       where: { kind: "EVENT" },
       orderBy: { position: "asc" },
     }),
-  ]);
+  ]).catch((error) => {
+    console.error("Falha ao carregar destaques do Instagram:", error);
+    return [[], []] as const;
+  });
 
   const hasHighlights = posts.length > 0 || events.length > 0;
 
